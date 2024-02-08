@@ -69,3 +69,23 @@ def get_db() -> MySQLConnection:
         host=host,
         database=dbname
     )
+
+
+def main():
+    """Read and filter data"""
+    db = get_db()
+    cursor = db.cursor()
+    cursor.execute("SELECT * FROM users;")
+    logger = get_logger()
+
+    for row in cursor:
+        logger.info("name={}; email={}; phone={}; ssn={}; password={}; \
+ip={}; last_login={}; user_agent={};".format(row[0], row[1], row[2],
+                                             row[3], row[4], row[5],
+                                             row[6], row[7]))
+    cursor.close()
+    db.close()
+
+
+if __name__ == "__main__":
+    main()
