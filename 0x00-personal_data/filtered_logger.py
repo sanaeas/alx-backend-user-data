@@ -56,7 +56,7 @@ def get_logger() -> logging.Logger:
     return logger
 
 
-def get_db():
+def get_db()  -> mysql.connector.connection.MySQLConnection:
     """Return a connector to the database"""
     username = os.getenv("PERSONAL_DATA_DB_USERNAME", "root")
     password = os.getenv("PERSONAL_DATA_DB_PASSWORD", "")
@@ -69,13 +69,3 @@ def get_db():
         host=host,
         database=dbname
     )
-
-
-if __name__ == "__main__":
-    db = get_db()
-    cursor = db.cursor()
-    cursor.execute("SELECT COUNT(*) FROM users;")
-    for row in cursor:
-        print(row[0])
-    cursor.close()
-    db.close()
