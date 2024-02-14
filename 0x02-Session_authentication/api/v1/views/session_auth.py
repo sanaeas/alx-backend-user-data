@@ -33,3 +33,15 @@ def login() -> str:
     response = jsonify(user.to_json())
     response.set_cookie(environ.get("SESSION_NAME", "set_cookie"), session_id)
     return response
+
+
+@app_views.route('/auth_session/logout',
+                 methods=['DELETE'],
+                 strict_slashes=False)
+def logout():
+    """ Handle user logout and session destruction
+    """
+    if not auth.destroy_session(request):
+        abort(404)
+
+    return jsonify({}), 200
