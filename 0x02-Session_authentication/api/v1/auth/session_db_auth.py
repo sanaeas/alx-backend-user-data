@@ -27,8 +27,11 @@ class SessionDBAuth(SessionExpAuth):
         if session_id is None or not isinstance(session_id, str):
             return None
 
-        user_sessions = UserSession.search({"session_id": session_id})
-        if not user_sessions or len(user_sessions) != 1:
+        try:
+            user_sessions = UserSession.search({"session_id": session_id})
+        except KeyError:
+            return None
+        if not user_sessions or len(user_sessions) <= 0:
             return None
 
         user_session = user_sessions[0]
@@ -41,8 +44,11 @@ class SessionDBAuth(SessionExpAuth):
         if not session_id:
             return False
 
-        user_sessions = UserSession.search({"session_id": session_id})
-        if not user_sessions or len(user_sessions) != 1:
+        try:
+            user_sessions = UserSession.search({"session_id": session_id})
+        except KeyError:
+            return None
+        if not user_sessions or len(user_sessions) <= 0:
             return False
 
         user_session = user_sessions[0]
